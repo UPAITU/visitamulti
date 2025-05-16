@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Acompanhamento Multiprofissional</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Fundo azul claro suave */
+        }
+        .form-section {
+            background-color: #ffffff; /* Fundo branco para seções */
+            border-radius: 8px; /* Bordas arredondadas */
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        }
+        .form-section h2 {
+            font-size: 1.5rem; /* Tamanho do título da seção */
+            color: #1e3a8a; /* Azul escuro para títulos */
+            border-bottom: 2px solid #3b82f6; /* Linha azul abaixo do título */
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .form-section h3 {
+            font-size: 1.1rem;
+            color: #1e3a8a;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+        label {
+            font-weight: 500; /* Peso da fonte para labels */
+            color: #374151; /* Cinza escuro para labels */
+        }
+        input[type="text"], input[type="date"], input[type="number"], select, textarea {
+            border: 1px solid #d1d5db; /* Borda cinza claro */
+            border-radius: 6px; /* Bordas arredondadas para inputs */
+            padding: 10px;
+            width: 100%;
+            margin-top: 5px;
+            transition: border-color 0.3s;
+            background-color: #fff; /* Fundo branco para inputs */
+            color: #1f2937; /* Cor do texto escura para inputs */
+        }
+        input[type="text"]:focus, input[type="date"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
+            border-color: #3b82f6; /* Borda azul ao focar */
+            outline: none;
+        }
+        .radio-group label, .checkbox-group label {
+            margin-right: 15px;
+            font-weight: normal;
+            color: #374151; /* Cor do texto para labels de radio/checkbox */
+        }
+        .radio-group input[type="radio"], .checkbox-group input[type="checkbox"] {
+            margin-right: 5px;
+            accent-color: #3b82f6; /* Cor de destaque azul para radios/checkboxes */
+        }
+        .grid-cols-custom {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Layout responsivo para inputs */
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 30px; 
+        }
+        .submit-button {
+            background-color: #3b82f6; 
+            color: white;
+            padding: 12px 25px; 
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem; 
+            transition: background-color 0.3s;
+        }
+        .submit-button:hover {
+            background-color: #2563eb; 
+        }
+        .calc-button {
+            background-color: #10b981; /* Verde para botão de calcular */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+            margin-top: 10px; /* Espaçamento acima do botão */
+        }
+        .calc-button:hover {
+            background-color: #059669; /* Verde mais escuro no hover */
+        }
+        .table-container {
+            overflow-x: auto; 
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse; 
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #e5e7eb; 
+            padding: 10px;
+            text-align: left;
+            color: #374151; 
+        }
+        th {
+            background-color: #f3f4f6; 
+            color: #1e3a8a; 
+        }
+        .header-date-input {
+            background-color: #e0e7ff; 
+            border: 1px solid #a5b4fc; 
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            color: #1e3a8a;
+        }
+        .hidden {
+            display: none;
+        }
+
+        .dark body {
+            background-color: #111827; 
+        }
+        .dark .form-section {
+            background-color: #1f2937; 
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); 
+        }
+        .dark .form-section h2 {
+            color: #60a5fa; 
+            border-bottom-color: #3b82f6;
+        }
+        .dark .form-section h3 {
+            color: #60a5fa;
+        }
+        .dark label {
+            color: #d1d5db; 
+        }
+        .dark input[type="text"], .dark input[type="date"], .dark input[type="number"], .dark select, .dark textarea {
+            background-color: #374151; 
+            border-color: #4b5563; 
+            color: #f3f4f6; 
+        }
+        .dark input[type="text"]:focus, .dark input[type="date"]:focus, .dark input[type="number"]:focus, .dark select:focus, .dark textarea:focus {
+            border-color: #60a5fa; 
+        }
+        .dark .radio-group label, .dark .checkbox-group label {
+            color: #d1d5db;
+        }
+        .dark .radio-group input[type="radio"], .dark .checkbox-group input[type="checkbox"] {
+            accent-color: #60a5fa;
+        }
+        .dark th {
+            background-color: #374151; 
+            color: #93c5fd; 
+            border-color: #4b5563;
+        }
+        .dark td {
+            border-color: #4b5563;
+            color: #d1d5db;
+        }
+        .dark .header-date-input {
+            background-color: #374151;
+            border-color: #4b5563;
+            color: #93c5fd;
+        }
+        .dark .calc-button {
+            background-color: #059669;
+        }
+        .dark .calc-button:hover {
+            background-color: #047857;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <header class="form-section text-center">
+            <h1 class="text-2xl font-bold text-blue-700 dark:text-blue-400 mb-2">FICHA DE ACOMPANHAMENTO MULTIPROFISSIONAL DO PACIENTE</h1>
+            <div class="flex justify-center items-center">
+                <label for="data_formulario" class="mr-2 text-lg font-semibold text-blue-600 dark:text-blue-300">DATA:</label>
+                <input type="date" id="data_formulario" name="data_formulario" class="header-date-input">
+            </div>
+        </header>
+
+        <form id="acompanhamentoForm" action="https://formspree.io/f/meognaeb" method="POST">
+            <div class="form-section">
+                <h2>1. DADOS DO PACIENTE E DIAGNÓSTICO</h2>
+                <div class="grid grid-cols-custom gap-4">
+                    <div>
+                        <label for="diagnostico">DIAGNÓSTICO(S):</label>
+                        <textarea id="diagnostico" name="diagnostico" rows="3" class="mt-1 block w-full"></textarea>
+                    </div>
+                    <div>
+                        <label for="antecedentes">ANTECEDENTES PESSOAIS PATOLÓGICOS:</label>
+                        <textarea id="antecedentes" name="antecedentes" rows="3" class="mt-1 block w-full"></textarea>
+                    </div>
+                    <div>
+                        <label for="nome_paciente">NOME:</label>
+                        <input type="text" id="nome_paciente" name="nome_paciente">
+                    </div>
+                    <div>
+                        <label for="nome_mae">NOME DA MÃE:</label>
+                        <input type="text" id="nome_mae" name="nome_mae">
+                    </div>
+                    <div>
+                        <label for="data_nascimento">DATA DE NASCIMENTO:</label>
+                        <input type="date" id="data_nascimento" name="data_nascimento">
+                    </div>
+                    <div>
+                        <label for="idade">IDADE:</label>
+                        <input type="number" id="idade" name="idade" min="0">
+                    </div>
+                    <div>
+                        <label for="leito">LEITO:</label>
+                        <input type="text" id="leito" name="leito">
+                    </div>
+                    <div>
+                        <label for="atendimento">ATENDIMENTO:</label>
+                        <input type="text" id="atendimento" name="atendimento">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>3. INTERCORRÊNCIAS NAS ÚLTIMAS 24 HORAS</h2>
+                <div class="radio-group">
+                    <input type="radio" id="intercorrencias_nao" name="intercorrencias" value="nao" checked> <label for="intercorrencias_nao">NÃO</label>
+                    <input type="radio" id="intercorrencias_sim" name="intercorrencias" value="sim"> <label for="intercorrencias_sim">SIM</label>
+                </div>
+                <div id="intercorrencias_especificar_container" class="mt-3 hidden">
+                    <label for="intercorrencias_especificar">ESPECIFICAR INTERCORRÊNCIAS:</label>
+                    <textarea id="intercorrencias_especificar" name="intercorrencias_especificar" rows="3" class="w-full mt-1"></textarea>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>4. PENDÊNCIAS DE EXAMES OU AVALIAÇÃO DE ESPECIALISTAS</h2>
+                <div class="radio-group">
+                    <input type="radio" id="pendencias_nao" name="pendencias" value="nao" checked> <label for="pendencias_nao">NÃO</label>
+                    <input type="radio" id="pendencias_sim" name="pendencias" value="sim"> <label for="pendencias_sim">SIM</label>
+                </div>
+                <div id="pendencias_especificar_container" class="mt-2 hidden">
+                    <label for="pendencias_especificar">ESPECIFICAR:</label>
+                    <input type="text" id="pendencias_especificar" name="pendencias_especificar" class="w-full">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>5. PROTOCOLOS ACOMPANHADOS/PROFILAXIAS</h2>
+                <div class="space-y-3">
+                    <div>
+                        <label>LESÃO POR PRESSÃO:</label>
+                        <div class="radio-group">
+                            <input type="radio" id="lpp_sim" name="lpp" value="sim"> <label for="lpp_sim">SIM</label>
+                            <input type="radio" id="lpp_nao" name="lpp" value="nao" checked> <label for="lpp_nao">NÃO</label>
+                            <input type="radio" id="lpp_na" name="lpp" value="na"> <label for="lpp_na">NA</label>
+                        </div>
+                    </div>
+                    <div>
+                        <label>QUEDA:</label>
+                        <div class="radio-group">
+                            <input type="radio" id="queda_sim" name="queda" value="sim"> <label for="queda_sim">SIM</label>
+                            <input type="radio" id="queda_nao" name="queda" value="nao" checked> <label for="queda_nao">NÃO</label>
+                            <input type="radio" id="queda_na" name="queda" value="na"> <label for="queda_na">NA</label>
+                        </div>
+                    </div>
+                    <div>
+                        <label>BRONCOASPIRAÇÃO:</label>
+                        <div class="radio-group">
+                            <input type="radio" id="bronco_sim" name="broncoaspiracao" value="sim"> <label for="bronco_sim">SIM</label>
+                            <input type="radio" id="bronco_nao" name="broncoaspiracao" value="nao" checked> <label for="bronco_nao">NÃO</label>
+                            <input type="radio" id="bronco_na" name="broncoaspiracao" value="na"> <label for="bronco_na">NA</label>
+                        </div>
+                    </div>
+                    <div>
+                        <label>FLEBITE:</label>
+                        <div class="radio-group">
+                            <input type="radio" id="flebite_sim" name="flebite" value="sim"> <label for="flebite_sim">SIM</label>
+                            <input type="radio" id="flebite_nao" name="flebite" value="nao" checked> <label for="flebite_nao">NÃO</label>
+                            <input type="radio" id="flebite_na" name="flebite" value="na"> <label for="flebite_na">NA</label>
+                        </div>
+                    </div>
+                    <div>
+                        <label>PNEUMONIA ASSOCIADA À VM:</label>
+                        <div class="radio-group">
+                            <input type="radio" id="pav_sim" name="pav" value="sim"> <label for="pav_sim">SIM</label>
+                            <input type="radio" id="pav_nao" name="pav" value="nao" checked> <label for="pav_nao">NÃO</label>
+                            <input type="radio" id="pav_na" name="pav" value="na"> <label for="pav_na">NA</label>
+                        </div>
+                    </div>
+                     <div>
+                        <label>ÚLCERA GÁSTRICA:</label>
+                        <div class="radio-group">
+                            <input type="radio" id="ulcera_sim" name="ulcera" value="sim"> <label for="ulcera_sim">SIM</label>
+                            <input type="radio" id="ulcera_nao" name="ulcera" value="nao" checked> <label for="ulcera_nao">NÃO</label>
+                            <input type="radio" id="ulcera_na" name="ulcera" value="na"> <label for="ulcera_na">NA</label>
+                        </div>
+                    </div>
+                    <div>
+                        <label>TROMBO EMBOLIA VENOSA (TEV):</label>
+                        <div class="radio-group">
+                            <input type="radio" id="tev_na" name="tev_status" value="na"> <label for="tev_na">NA</label>
+                            <input type="radio" id="tev_sim" name="tev_status" value="sim"> <label for="tev_sim">SIM</label>
+                            <input type="radio" id="tev_risco_baixo" name="tev_risco" value="baixo"> <label for="tev_risco_baixo">RISCO BAIXO</label>
+                            <input type="radio" id="tev_risco_moderado" name="tev_risco" value="moderado"> <label for="tev_risco_moderado">RISCO MODERADO</label>
+                            <input type="radio" id="tev_risco_alto" name="tev_risco" value="alto"> <label for="tev_risco_alto">RISCO ALTO</label>
+                        </div>
+                        <div class="mt-2">
+                            <label>PROFILAXIA:</label>
+                            <div class="radio-group">
+                                <input type="radio" id="profilaxia_mecanica" name="tev_profilaxia_tipo" value="mecanica"> <label for="profilaxia_mecanica">MECÂNICA</label>
+                                <input type="radio" id="profilaxia_medicamentosa" name="tev_profilaxia_tipo" value="medicamentosa"> <label for="profilaxia_medicamentosa">MEDICAMENTOSA</label>
+                            </div>
+                            <label for="profilaxia_qual" class="mt-1">QUAL?</label>
+                            <input type="text" id="profilaxia_qual" name="tev_profilaxia_qual">
+                        </div>
+                    </div>
+                    <div>
+                        <label>PERDA DE DISPOSITIVO:</label>
+                        <div class="radio-group">
+                            <input type="radio" id="perda_dispositivo_sim" name="perda_dispositivo_status" value="sim"> <label for="perda_dispositivo_sim">SIM</label>
+                            <input type="radio" id="perda_dispositivo_nao" name="perda_dispositivo_status" value="nao" checked> <label for="perda_dispositivo_nao">NÃO</label>
+                            <input type="radio" id="perda_dispositivo_na" name="perda_dispositivo_status" value="na"> <label for="perda_dispositivo_na">NA</label>
+                        </div>
+                        <div id="perda_dispositivo_especificar_container" class="mt-2 hidden">
+                            <label for="perda_dispositivo_especificar">ESPECIFICAR PERDA DE DISPOSITIVO:</label>
+                            <textarea id="perda_dispositivo_especificar" name="perda_dispositivo_especificar" rows="2" class="w-full mt-1"></textarea>
+                        </div>
+                    </div>
+                    <div>
+                        <label>HOUVE EVENTO ADVERSO NAS ÚLTIMAS 24 HORAS?</label>
+                         <div class="radio-group">
+                            <input type="radio" id="evento_adverso_sim" name="evento_adverso_status" value="sim"> <label for="evento_adverso_sim">SIM</label>
+                            <input type="radio" id="evento_adverso_nao" name="evento_adverso_status" value="nao" checked> <label for="evento_adverso_nao">NÃO</label>
+                        </div>
+                        <div id="evento_adverso_especificar_container" class="mt-2 hidden">
+                            <label for="evento_adverso_especificar">ESPECIFICAR EVENTO ADVERSO:</label>
+                            <textarea id="evento_adverso_especificar" name="evento_adverso_especificar" rows="2" class="w-full mt-1"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-section">
+                <h2>6. CONTROLE DE CATETERES/SONDAS – LOCAL E DATA DE INSERÇÃO</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>DISPOSITIVO</th>
+                                <th>LOCAL</th>
+                                <th>DATA DE INSERÇÃO</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="checkbox" id="cateter_central_check" name="cateter_central_check" class="mr-2"><label for="cateter_central_check">CATETER CENTRAL</label></td>
+                                <td><input type="text" name="cateter_central_local"></td>
+                                <td><input type="date" name="cateter_central_data"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" id="acesso_periferico_check" name="acesso_periferico_check" class="mr-2"><label for="acesso_periferico_check">ACESSO PERIFÉRICO</label></td>
+                                <td><input type="text" name="acesso_periferico_local"></td>
+                                <td><input type="date" name="acesso_periferico_data"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" id="pressao_invasiva_check" name="pressao_invasiva_check" class="mr-2"><label for="pressao_invasiva_check">PRESSÃO INVASIVA</label></td>
+                                <td><input type="text" name="pressao_invasiva_local"></td>
+                                <td><input type="date" name="pressao_invasiva_data"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" id="tubo_orotraqueal_check" name="tubo_orotraqueal_check" class="mr-2"><label for="tubo_orotraqueal_check">TUBO OROTRAQUEAL</label></td>
+                                <td><input type="text" name="tubo_orotraqueal_local"></td>
+                                <td><input type="date" name="tubo_orotraqueal_data"></td>
+                            </tr>
+                             <tr>
+                                <td><input type="checkbox" id="traqueostomia_check" name="traqueostomia_check" class="mr-2"><label for="traqueostomia_check">TRAQUEOSTOMIA</label></td>
+                                <td><input type="text" name="traqueostomia_local"></td>
+                                <td><input type="date" name="traqueostomia_data"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" id="drenos_check" name="drenos_check" class="mr-2"><label for="drenos_check">DRENOS</label></td>
+                                <td><input type="text" name="drenos_local"></td>
+                                <td><input type="date" name="drenos_data"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" id="svd_check" name="svd_check" class="mr-2"><label for="svd_check">SVD</label></td>
+                                <td><input type="text" name="svd_local"></td>
+                                <td><input type="date" name="svd_data"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" id="gastrostomia_check" name="gastrostomia_check" class="mr-2"><label for="gastrostomia_check">GASTROSTOMIA</label></td>
+                                <td><input type="text" name="gastrostomia_local"></td>
+                                <td><input type="date" name="gastrostomia_data"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" id="sonda_enteral_check" name="sonda_enteral_check" class="mr-2"><label for="sonda_enteral_check">SONDA ENTERAL</label></td>
+                                <td><input type="text" name="sonda_enteral_local"></td>
+                                <td><input type="date" name="sonda_enteral_data"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" id="outros_dispositivos_check" name="outros_dispositivos_check" class="mr-2"><label for="outros_dispositivos_check">OUTROS</label></td>
+                                <td><input type="text" name="outros_dispositivos_local" placeholder="Especificar dispositivo e local"></td>
+                                <td><input type="date" name="outros_dispositivos_data"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>7. INFECÇÃO</h2>
+                <div class="radio-group">
+                    <input type="radio" id="infeccao_nao" name="infeccao_status" value="nao" checked> <label for="infeccao_nao">NÃO</label>
+                    <input type="radio" id="infeccao_sim" name="infeccao_status" value="sim"> <label for="infeccao_sim">SIM</label>
+                </div>
+                <div class="mt-3 space-y-3">
+                    <div>
+                        <label>ABERTURA DO PROTOCOLO DE SEPSE:</label>
+                        <div class="radio-group">
+                            <input type="radio" id="sepse_sim" name="sepse_protocolo" value="sim"> <label for="sepse_sim">SIM</label>
+                            <input type="radio" id="sepse_nao" name="sepse_protocolo" value="nao" checked> <label for="sepse_nao">NÃO</label>
+                        </div>
+                    </div>
+                    <div>
+                        <label>CULTURA EM ANDAMENTO:</label>
+                        <div class="radio-group">
+                            <input type="radio" id="cultura_andamento_nao" name="cultura_andamento" value="nao" checked> <label for="cultura_andamento_nao">NÃO</label>
+                            <input type="radio" id="cultura_andamento_sim" name="cultura_andamento" value="sim"> <label for="cultura_andamento_sim">SIM</label>
+                        </div>
+                    </div>
+                    <div id="cultura_tipos_container" class="ml-4 space-y-2 hidden">
+                        <label>TIPOS DE CULTURA:</label>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="cultura_hemo" name="cultura_tipo" value="hemocultura"> <label for="cultura_hemo">HEMOCULTURA</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="cultura_uro" name="cultura_tipo" value="urocultura"> <label for="cultura_uro">UROCULTURA</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="cultura_outros" name="cultura_tipo_outros_check" value="outros"> <label for="cultura_outros">OUTROS</label>
+                        </div>
+                        <div id="cultura_outros_especificar_container" class="mt-1 hidden">
+                             <label for="cultura_outros_especificar" class="sr-only">Especificar outros tipos de cultura</label>
+                            <input type="text" id="cultura_outros_especificar" name="cultura_outros_especificar" placeholder="Especificar outros tipos de cultura" class="w-full">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="foco_suspeito">FOCO SUSPEITO:</label>
+                        <input type="text" id="foco_suspeito" name="foco_suspeito">
+                    </div>
+                    <div class="pt-2">
+                        <label>PRECAUÇÃO:</label>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="precaucao_contato" name="precaucao_tipo" value="contato"> <label for="precaucao_contato">CONTATO</label>
+                            <input type="checkbox" id="precaucao_respiratorio" name="precaucao_tipo" value="respiratorio"> <label for="precaucao_respiratorio">RESPIRATÓRIO</label>
+                            <input type="checkbox" id="precaucao_goticulas" name="precaucao_tipo" value="goticulas"> <label for="precaucao_goticulas">GOTÍCULAS</label>
+                            <input type="checkbox" id="precaucao_aerossois" name="precaucao_tipo" value="aerossois"> <label for="precaucao_aerossois">AEROSSÓIS</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-section">
+                <h2>8. CONFORTO / ANALGESIA</h2>
+                <div class="space-y-3">
+                    <div>
+                        <label>PROTOCOLO DE DOR ADEQUADO:</label>
+                        <div class="radio-group">
+                            <input type="radio" id="dor_sim" name="dor_protocolo" value="sim"> <label for="dor_sim">SIM</label>
+                            <input type="radio" id="dor_nao" name="dor_protocolo" value="nao" checked> <label for="dor_nao">NÃO</label>
+                            <input type="radio" id="dor_na" name="dor_protocolo" value="na"> <label for="dor_na">NA</label>
+                        </div>
+                    </div>
+                    <div>
+                        <label>DELIRIUM PRESENTE NAS ÚLTIMAS 24 HORAS:</label>
+                        <div class="radio-group">
+                            <input type="radio" id="delirium_sim" name="delirium_status" value="sim"> <label for="delirium_sim">SIM</label>
+                            <input type="radio" id="delirium_nao" name="delirium_status" value="nao" checked> <label for="delirium_nao">NÃO</label>
+                            <input type="radio" id="delirium_na" name="delirium_status" value="na"> <label for="delirium_na">NA</label>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="conforto_obs">OBS.:</label>
+                        <textarea id="conforto_obs" name="conforto_obs" rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>9. FISIOTERAPIA</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label>OXIGENIOTERAPIA CONVENCIONAL:</label>
+                        <div class="radio-group">
+                            <input type="radio" id="oxigenio_conv_sim" name="oxigenioterapia_conv_status" value="sim"> <label for="oxigenio_conv_sim">SIM</label>
+                            <input type="radio" id="oxigenio_conv_nao" name="oxigenioterapia_conv_status" value="nao" checked> <label for="oxigenio_conv_nao">NÃO</label>
+                        </div>
+                    </div>
+                    <div id="oxigenio_conv_detalhes_container" class="ml-4 space-y-3 hidden">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="cateter_nasal_lpm">CATETER NASAL (L/MIN):</label>
+                                <input type="number" id="cateter_nasal_lpm" name="cateter_nasal_lpm" min="0" step="0.1">
+                            </div>
+                            <div>
+                                <label for="mascara_reservatorio_lpm">MÁSCARA C/ RESERVATÓRIO (L/MIN):</label>
+                                <input type="number" id="mascara_reservatorio_lpm" name="mascara_reservatorio_lpm" min="0" step="0.1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr class="my-4 dark:border-gray-600">
+
+                    <div>
+                        <label>VNI (VENTILAÇÃO NÃO INVASIVA):</label>
+                        <div class="radio-group">
+                            <input type="radio" id="vni_sim" name="vni_status" value="sim"> <label for="vni_sim">SIM</label>
+                            <input type="radio" id="vni_nao" name="vni_status" value="nao" checked> <label for="vni_nao">NÃO</label>
+                        </div>
+                    </div>
+                    <div id="vni_detalhes_container" class="ml-4 space-y-3 hidden">
+                        <div>
+                            <label for="vni_modo">MODO VNI:</label>
+                            <input type="text" id="vni_modo" name="vni_modo" placeholder="Ex: CPAP, BiPAP">
+                        </div>
+                        <div>
+                            <label for="vni_parametros">PARÂMETROS VNI (IPAP, EPAP, FiO2, etc.):</label>
+                            <textarea id="vni_parametros" name="vni_parametros" rows="2" placeholder="Descrever parâmetros..."></textarea>
+                        </div>
+                    </div>
+
+                    <hr class="my-4 dark:border-gray-600">
+
+                    <div>
+                        <label>VENTILAÇÃO MECÂNICA INVASIVA (VMI):</label>
+                        <div class="radio-group">
+                            <input type="radio" id="vmi_sim" name="vmi_status" value="sim"> <label for="vmi_sim">SIM</label>
+                            <input type="radio" id="vmi_nao" name="vmi_status" value="nao" checked> <label for="vmi_nao">NÃO</label>
+                        </div>
+                    </div>
+                    <div id="vmi_detalhes_container" class="ml-4 space-y-3 hidden">
+                        <div>
+                            <label for="vmi_modo_select">MODO VENTILATÓRIO:</label>
+                            <select id="vmi_modo_select" name="vmi_modo_select" class="mt-1 block w-full py-2 px-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                <option value="">Selecione o Modo</option>
+                                <option value="VCV">VCV (Ventilação Controlada a Volume)</option>
+                                <option value="PCV">PCV (Ventilação Controlada a Pressão)</option>
+                                <option value="PSV">PSV (Ventilação com Suporte Pressórico)</option>
+                                <option value="Outro">Outro (Especificar)</option>
+                            </select>
+                            <input type="text" id="vmi_modo_outro_especificar" name="vmi_modo_outro_especificar" class="mt-2 block w-full py-2 px-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm hidden" placeholder="Especificar outro modo">
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div id="vmi_param_vcv_container" class="hidden">
+                                <label for="vmi_vt">Volume Corrente (Vt) (ml):</label>
+                                <input type="number" id="vmi_vt" name="vmi_vt" min="0" class="mt-1 block w-full">
+                            </div>
+
+                            <div id="vmi_param_pcv_container" class="hidden">
+                                <label for="vmi_pinsp">Pressão Insp. (Pinsp) (cmH2O):</label>
+                                <input type="number" id="vmi_pinsp" name="vmi_pinsp" min="0" class="mt-1 block w-full">
+                            </div>
+                            
+                            <div id="vmi_param_psv_container" class="hidden">
+                                <label for="vmi_ps">Pressão de Suporte (PS) (cmH2O):</label>
+                                <input type="number" id="vmi_ps" name="vmi_ps" min="0" class="mt-1 block w-full">
+                            </div>
+
+                            <div> <label for="vmi_peep">PEEP (cmH2O):</label>
+                                <input type="number" id="vmi_peep" name="vmi_peep" min="0" step="0.1">
+                            </div>
+                            <div> <label for="vmi_fio2">FiO2 (%):</label>
+                                <input type="number" id="vmi_fio2" name="vmi_fio2" min="21" max="100" step="1">
+                            </div>
+                            <div> <label for="vmi_fr">Frequência Resp. (FR) (irpm):</label>
+                                <input type="number" id="vmi_fr" name="vmi_fr" min="0">
+                            </div>
+                             <div> <label for="vmi_ti">Tempo Insp. (Ti) (s):</label>
+                                <input type="number" id="vmi_ti" name="vmi_ti" min="0" step="0.1">
+                            </div>
+                            <div> <label for="vmi_ie">Relação I:E:</label>
+                                <input type="text" id="vmi_ie" name="vmi_ie" placeholder="Ex: 1:2">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="vmi_outros_parametros">OUTROS PARÂMETROS / OBSERVAÇÕES VMI:</label>
+                            <textarea id="vmi_outros_parametros" name="vmi_outros_parametros" rows="2"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h2>10. NUTRIÇÃO</h2>
+                <div class="space-y-3">
+                     <div class="radio-group">
+                        <label class="block mb-1">ACOMPANHAMENTO NUTRICIONAL:</label>
+                        <input type="radio" id="nutricao_acompanhamento_sim" name="nutricao_acompanhamento" value="sim"> <label for="nutricao_acompanhamento_sim">SIM</label>
+                        <input type="radio" id="nutricao_acompanhamento_nao" name="nutricao_acompanhamento" value="nao" checked> <label for="nutricao_acompanhamento_nao">NÃO</label>
+                    </div>
+                    
+                    <hr class="my-3 dark:border-gray-700">
+                    <h3>Calculadora de Necessidade Calórica (Estimativa)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-3 p-3 border border-blue-200 dark:border-blue-700 rounded-md bg-blue-50 dark:bg-gray-700/30">
+                        <div>
+                            <label for="calc_peso">Peso (kg):</label>
+                            <input type="number" id="calc_peso" name="calc_peso" min="0" step="0.1">
+                        </div>
+                        <div>
+                            <label for="calc_altura">Altura (cm):</label>
+                            <input type="number" id="calc_altura" name="calc_altura" min="0">
+                        </div>
+                        <div>
+                            <label for="calc_idade">Idade (anos):</label>
+                            <input type="number" id="calc_idade" name="calc_idade" min="0">
+                        </div>
+                        <div>
+                            <label for="calc_sexo">Sexo:</label>
+                            <select id="calc_sexo" name="calc_sexo" class="mt-1 block w-full">
+                                <option value="masculino">Masculino</option>
+                                <option value="feminino">Feminino</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="calc_fator_atividade">Nível de Atividade:</label>
+                            <select id="calc_fator_atividade" name="calc_fator_atividade" class="mt-1 block w-full">
+                                <option value="1.2">Sedentário (acamado, pouco ou nenhum exercício)</option>
+                                <option value="1.375">Levemente Ativo (exercício leve/deambula pouco, 1-3 dias/semana)</option>
+                                <option value="1.55">Moderadamente Ativo (exercício moderado/deambula no quarto/corredor, 3-5 dias/semana)</option>
+                                <option value="1.725">Muito Ativo (exercício pesado/fisioterapia intensa, 6-7 dias/semana)</option>
+                                <option value="1.9">Extremamente Ativo (condições especiais, alta demanda metabólica)</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-2 text-center">
+                             <button type="button" id="btn_calcular_ncd" class="calc-button">Calcular Necessidade Calórica</button>
+                        </div>
+                    </div>
+                     <hr class="my-3 dark:border-gray-700">
+
+                    <div>
+                        <label for="necessidade_calorica">NECESSIDADE CALÓRICA DO PACIENTE (Kcal/dia):</label>
+                        <input type="text" id="necessidade_calorica" name="necessidade_calorica" placeholder="Preenchido pela calculadora ou manualmente">
+                    </div>
+                    <div>
+                        <label>JEJUM:</label>
+                        <div class="radio-group">
+                            <input type="radio" id="jejum_nao" name="jejum_status" value="nao" checked> <label for="jejum_nao">NÃO</label>
+                            <input type="radio" id="jejum_sim" name="jejum_status" value="sim"> <label for="jejum_sim">SIM</label>
+                        </div>
+                        <div id="jejum_motivo_container" class="mt-1 hidden">
+                            <label for="jejum_motivo">MOTIVO:</label>
+                            <input type="text" id="jejum_motivo" name="jejum_motivo">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="tipo_dieta_select">TIPO DE DIETA:</label>
+                        <select id="tipo_dieta_select" name="tipo_dieta_select" class="mt-1 block w-full">
+                            <option value="">Selecione o Tipo de Dieta</option>
+                            <option value="Geral">Geral</option>
+                            <option value="Branda">Branda</option>
+                            <option value="Pastosa">Pastosa</option>
+                            <option value="Líquida Completa">Líquida Completa</option>
+                            <option value="Líquida Restrita">Líquida Restrita</option>
+                            <option value="Hipossódica">Hipossódica</option>
+                            <option value="Hipoglicídica (Diabetes)">Hipoglicídica (Diabetes)</option>
+                            <option value="Hipolipídica">Hipolipídica</option>
+                            <option value="Hiperproteica">Hiperproteica</option>
+                            <option value="Hipoproteica">Hipoproteica</option>
+                            <option value="Laxativa">Laxativa</option>
+                            <option value="Obstipante">Obstipante</option>
+                            <option value="Sem Resíduos">Sem Resíduos</option>
+                            <option value="Enteral Padrão">Enteral Padrão</option>
+                            <option value="Enteral Especializada">Enteral Especializada</option>
+                            <option value="Outra">Outra (Especificar)</option>
+                        </select>
+                        <div id="tipo_dieta_outra_container" class="mt-2 hidden">
+                            <label for="tipo_dieta_outra_especificar">ESPECIFICAR OUTRO TIPO DE DIETA:</label>
+                            <input type="text" id="tipo_dieta_outra_especificar" name="tipo_dieta_outra_especificar" class="w-full mt-1">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label>ORAL:</label>
+                            <div class="radio-group">
+                                <input type="radio" id="dieta_oral_sim" name="dieta_oral_status" value="sim"> <label for="dieta_oral_sim">SIM</label>
+                                <input type="radio" id="dieta_oral_nao" name="dieta_oral_status" value="nao" checked> <label for="dieta_oral_nao">NÃO</label>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="dieta_enteral_gotas">DIETA ENTERAL (GOTAS/MIN):</label>
+                            <input type="number" id="dieta_enteral_gotas" name="dieta_enteral_gotas" min="0">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-section">
+                <h2>11. FARMÁCIA</h2>
+                <div class="space-y-3">
+                    <div>
+                        <label>INTERAÇÃO MEDICAMENTOSA:</label>
+                        <div class="radio-group">
+                            <input type="radio" id="interacao_med_sim" name="interacao_medicamentosa" value="sim"> <label for="interacao_med_sim">SIM</label>
+                            <input type="radio" id="interacao_med_nao" name="interacao_medicamentosa" value="nao" checked> <label for="interacao_med_nao">NÃO</label>
+                        </div>
+                    </div>
+                    <div>
+                        <label>ANTIBIÓTICOS:</label>
+                        <div class="radio-group">
+                            <input type="radio" id="atb_nao" name="antibioticos_status" value="nao" checked> <label for="atb_nao">NÃO</label>
+                            <input type="radio" id="atb_sim" name="antibioticos_status" value="sim"> <label for="atb_sim">SIM</label>
+                        </div>
+                        <div id="atb_detalhes_container" class="mt-1 hidden">
+                            <label for="atb_especificar">ESPECIFICAR:</label>
+                            <input type="text" id="atb_especificar" name="atb_especificar" class="mb-2">
+                            <label for="atb_data_inicio">DATA DE INÍCIO DO ATB:</label>
+                            <input type="date" id="atb_data_inicio" name="atb_data_inicio">
+                        </div>
+                    </div>
+                    <div>
+                        <label>ALERGIA:</label>
+                        <div class="radio-group">
+                            <input type="radio" id="alergia_nao" name="alergia_status" value="nao" checked> <label for="alergia_nao">NÃO</label>
+                            <input type="radio" id="alergia_sim" name="alergia_status" value="sim"> <label for="alergia_sim">SIM</label>
+                        </div>
+                         <div id="alergia_especificar_container" class="mt-1 hidden">
+                            <label for="alergia_especificar">ESPECIFICAR:</label>
+                            <input type="text" id="alergia_especificar" name="alergia_especificar">
+                        </div>
+                    </div>
+                    <div>
+                        <label>RECONCILIAÇÃO MEDICAMENTOSA:</label>
+                        <div class="radio-group">
+                            <input type="radio" id="reconciliacao_sim" name="reconciliacao_medicamentosa" value="sim"> <label for="reconciliacao_sim">SIM</label>
+                            <input type="radio" id="reconciliacao_nao" name="reconciliacao_medicamentosa" value="nao" checked> <label for="reconciliacao_nao">NÃO</label>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="farmacia_intervencoes">INTERVENÇÕES:</label>
+                        <textarea id="farmacia_intervencoes" name="farmacia_intervencoes" rows="2"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>12. PLANO TERAPÊUTICO</h2>
+                <textarea id="plano_terapeutico" name="plano_terapeutico" rows="4" placeholder="Descreva o plano terapêutico..."></textarea>
+            </div>
+
+            <div class="form-section">
+                <h2>13. META ALCANÇADA</h2>
+                 <div class="radio-group">
+                    <input type="radio" id="meta_sim" name="meta_alcancada" value="sim"> <label for="meta_sim">SIM</label>
+                    <input type="radio" id="meta_nao" name="meta_alcancada" value="nao" checked> <label for="meta_nao">NÃO</label>
+                </div>
+            </div>
+
+            <div class="form-section assinaturas-section"> <h2>ASSINATURAS DOS PROFISSIONAIS</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="assinatura_medico">MÉDICO:</label>
+                        <input type="text" id="assinatura_medico" name="assinatura_medico" placeholder="Nome/CRM do Médico">
+                    </div>
+                    <div>
+                        <label for="assinatura_enfermeiro">ENFERMEIRO:</label>
+                        <input type="text" id="assinatura_enfermeiro" name="assinatura_enfermeiro" placeholder="Nome/COREN do Enfermeiro">
+                    </div>
+                    <div>
+                        <label for="assinatura_ccih">CCIH:</label>
+                        <input type="text" id="assinatura_ccih" name="assinatura_ccih" placeholder="Nome/Registro do Profissional da CCIH">
+                    </div>
+                    <div>
+                        <label for="assinatura_farmaceutico">FARMACÊUTICO:</label>
+                        <input type="text" id="assinatura_farmaceutico" name="assinatura_farmaceutico" placeholder="Nome/CRF do Farmacêutico">
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-container">
+                <button type="submit" class="submit-button">Salvar Acompanhamento</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Função genérica para mostrar/esconder container e limpar campos internos
+            function toggleConditionalField(radioSimId, radioNaoId, containerId, specificFieldToClearId) {
+                const radioSim = document.getElementById(radioSimId);
+                const radioNao = document.getElementById(radioNaoId);
+                const radioNa = document.getElementById(radioSimId.replace('_sim', '_na')); 
+                const container = document.getElementById(containerId);
+                const specificField = specificFieldToClearId ? document.getElementById(specificFieldToClearId) : null;
+
+                function updateVisibility() {
+                    if (radioSim.checked) {
+                        container.classList.remove('hidden');
+                    } else {
+                        container.classList.add('hidden');
+                        const inputsToClear = container.querySelectorAll('input[type="text"], input[type="date"], input[type="number"], textarea, select');
+                        inputsToClear.forEach(input => {
+                            if (input.tagName === 'SELECT') {
+                                input.value = input.options[0] ? input.options[0].value : '';
+                            } else {
+                                input.value = '';
+                            }
+                        });
+                        const checksToClear = container.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+                        checksToClear.forEach(check => {
+                            if (check.id !== radioSimId && check.id !== radioNaoId && (!radioNa || check.id !== radioNa.id) ) {
+                                check.checked = false;
+                            }
+                        });
+                        if (specificField && container.classList.contains('hidden')) {
+                           specificField.value = '';
+                        }
+                    }
+                }
+
+                if (radioSim && radioNao && container) {
+                    radioSim.addEventListener('change', updateVisibility);
+                    radioNao.addEventListener('change', updateVisibility);
+                    if (radioNa) { 
+                        radioNa.addEventListener('change', updateVisibility);
+                    }
+                    updateVisibility(); 
+                } else {
+                    // console.warn("Elementos não encontrados para toggleConditionalField:", radioSimId, radioNaoId, containerId);
+                }
+            }
+
+            // --- Configuração dos Toggles Condicionais ---
+            toggleConditionalField('intercorrencias_sim', 'intercorrencias_nao', 'intercorrencias_especificar_container', 'intercorrencias_especificar');
+            toggleConditionalField('pendencias_sim', 'pendencias_nao', 'pendencias_especificar_container', 'pendencias_especificar');
+            toggleConditionalField('jejum_sim', 'jejum_nao', 'jejum_motivo_container', 'jejum_motivo');
+            toggleConditionalField('atb_sim', 'atb_nao', 'atb_detalhes_container', null);
+            toggleConditionalField('alergia_sim', 'alergia_nao', 'alergia_especificar_container', 'alergia_especificar');
+            
+            // SEÇÃO 5 - PROTOCOLOS
+            toggleConditionalField('perda_dispositivo_sim', 'perda_dispositivo_nao', 'perda_dispositivo_especificar_container', 'perda_dispositivo_especificar');
+            toggleConditionalField('evento_adverso_sim', 'evento_adverso_nao', 'evento_adverso_especificar_container', 'evento_adverso_especificar');
+
+            // --- SEÇÃO 7 INFECÇÃO: CULTURA ---
+            toggleConditionalField('cultura_andamento_sim', 'cultura_andamento_nao', 'cultura_tipos_container', null);
+            
+            const culturaOutrosCheck = document.getElementById('cultura_outros');
+            const culturaOutrosEspecificarContainer = document.getElementById('cultura_outros_especificar_container');
+            const culturaOutrosEspecificarInput = document.getElementById('cultura_outros_especificar');
+
+            if(culturaOutrosCheck && culturaOutrosEspecificarContainer && culturaOutrosEspecificarInput) {
+                culturaOutrosCheck.addEventListener('change', function() {
+                    if (this.checked) {
+                        culturaOutrosEspecificarContainer.classList.remove('hidden');
+                    } else {
+                        culturaOutrosEspecificarContainer.classList.add('hidden');
+                        culturaOutrosEspecificarInput.value = '';
+                    }
+                });
+                if (!culturaOutrosCheck.checked) {
+                    culturaOutrosEspecificarContainer.classList.add('hidden');
+                    culturaOutrosEspecificarInput.value = '';
+                }
+            }
+
+            // --- SEÇÃO 9 FISIOTERAPIA ---
+            toggleConditionalField('oxigenio_conv_sim', 'oxigenio_conv_nao', 'oxigenio_conv_detalhes_container', null);
+            toggleConditionalField('vni_sim', 'vni_nao', 'vni_detalhes_container', null);
+            toggleConditionalField('vmi_sim', 'vmi_nao', 'vmi_detalhes_container', null);
+
+            const vmiModoSelect = document.getElementById('vmi_modo_select');
+            const vmiModoOutroEspecificarInput = document.getElementById('vmi_modo_outro_especificar');
+            const vmiParamVcvContainer = document.getElementById('vmi_param_vcv_container');
+            const vmiVtInput = document.getElementById('vmi_vt');
+            const vmiParamPcvContainer = document.getElementById('vmi_param_pcv_container');
+            const vmiPinspInput = document.getElementById('vmi_pinsp');
+            const vmiParamPsvContainer = document.getElementById('vmi_param_psv_container');
+            const vmiPsInput = document.getElementById('vmi_ps');
+
+            if (vmiModoSelect && vmiModoOutroEspecificarInput && vmiParamVcvContainer && vmiParamPcvContainer && vmiParamPsvContainer) {
+                vmiModoSelect.addEventListener('change', function() {
+                    const selectedMode = this.value;
+                    vmiParamVcvContainer.classList.add('hidden'); vmiVtInput.value = '';
+                    vmiParamPcvContainer.classList.add('hidden'); vmiPinspInput.value = '';
+                    vmiParamPsvContainer.classList.add('hidden'); vmiPsInput.value = '';
+                    vmiModoOutroEspecificarInput.classList.add('hidden'); vmiModoOutroEspecificarInput.value = '';
+
+                    if (selectedMode === 'VCV') vmiParamVcvContainer.classList.remove('hidden');
+                    else if (selectedMode === 'PCV') vmiParamPcvContainer.classList.remove('hidden');
+                    else if (selectedMode === 'PSV') vmiParamPsvContainer.classList.remove('hidden');
+                    else if (selectedMode === 'Outro') vmiModoOutroEspecificarInput.classList.remove('hidden');
+                });
+                vmiParamVcvContainer.classList.add('hidden'); vmiParamPcvContainer.classList.add('hidden');
+                vmiParamPsvContainer.classList.add('hidden'); vmiModoOutroEspecificarInput.classList.add('hidden');
+            }
+
+            // --- SEÇÃO 10 NUTRIÇÃO: TIPO DE DIETA ---
+            const tipoDietaSelect = document.getElementById('tipo_dieta_select');
+            const tipoDietaOutraContainer = document.getElementById('tipo_dieta_outra_container');
+            const tipoDietaOutraEspecificarInput = document.getElementById('tipo_dieta_outra_especificar');
+
+            if (tipoDietaSelect && tipoDietaOutraContainer && tipoDietaOutraEspecificarInput) {
+                tipoDietaSelect.addEventListener('change', function() {
+                    if (this.value === 'Outra') {
+                        tipoDietaOutraContainer.classList.remove('hidden');
+                    } else {
+                        tipoDietaOutraContainer.classList.add('hidden');
+                        tipoDietaOutraEspecificarInput.value = '';
+                    }
+                });
+                if (tipoDietaSelect.value !== 'Outra') {
+                     tipoDietaOutraContainer.classList.add('hidden');
+                     tipoDietaOutraEspecificarInput.value = '';
+                }
+            }
+            
+            // --- SEÇÃO 10 NUTRIÇÃO: CALCULADORA DE NECESSIDADE CALÓRICA ---
+            const btnCalcularNCD = document.getElementById('btn_calcular_ncd');
+            if (btnCalcularNCD) {
+                btnCalcularNCD.addEventListener('click', function() {
+                    const peso = parseFloat(document.getElementById('calc_peso').value);
+                    const altura = parseFloat(document.getElementById('calc_altura').value);
+                    const idade = parseInt(document.getElementById('calc_idade').value);
+                    const sexo = document.getElementById('calc_sexo').value;
+                    const fatorAtividade = parseFloat(document.getElementById('calc_fator_atividade').value);
+                    const necessidadeCaloricaOutput = document.getElementById('necessidade_calorica');
+
+                    if (isNaN(peso) || isNaN(altura) || isNaN(idade) || peso <= 0 || altura <= 0 || idade <= 0) {
+                        alert('Por favor, preencha peso, altura e idade corretamente para calcular.');
+                        return;
+                    }
+
+                    let tmb;
+                    if (sexo === 'masculino') {
+                        // Harris-Benedict Revisada para Homens
+                        tmb = 88.362 + (13.397 * peso) + (4.799 * altura) - (5.677 * idade);
+                    } else { // feminino
+                        // Harris-Benedict Revisada para Mulheres
+                        tmb = 447.593 + (9.247 * peso) + (3.098 * altura) - (4.330 * idade);
+                    }
+
+                    if (tmb > 0 && fatorAtividade > 0) {
+                        const ncd = tmb * fatorAtividade;
+                        necessidadeCaloricaOutput.value = ncd.toFixed(0); // Arredonda para o inteiro mais próximo
+                    } else {
+                        alert('Não foi possível calcular a necessidade calórica. Verifique os dados.');
+                        necessidadeCaloricaOutput.value = '';
+                    }
+                });
+            }
+
+
+            // Preencher data atual no cabeçalho
+            const dataFormularioInput = document.getElementById('data_formulario');
+            if (dataFormularioInput) {
+                const today = new Date();
+                const currentDate = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+                dataFormularioInput.value = currentDate;
+            }
+
+            // Lidar com o envio do formulário
+            const form = document.getElementById('acompanhamentoForm');
+            form.addEventListener('submit', function(event) {
+                // A submissão agora será tratada pelo Formspree, então o preventDefault() e a lógica de console.log()
+                // podem ser removidos se você quiser o comportamento padrão de submissão do navegador para o endpoint.
+                // Se você quiser fazer algo *antes* da submissão para o Formspree (como validação extra),
+                // você pode manter o preventDefault() e depois submeter o formulário programaticamente com form.submit()
+                // após sua lógica.
+                // Por enquanto, vamos deixar o comportamento padrão do navegador assumir para o Formspree.
+
+                // event.preventDefault(); // Removido ou comentado para permitir submissão ao Formspree
+                // const formData = new FormData(form);
+                // const data = {};
+                // formData.forEach((value, key) => {
+                //     if (data[key]) {
+                //         if (!Array.isArray(data[key])) {
+                //             data[key] = [data[key]];
+                //         }
+                //         data[key].push(value);
+                //     } else {
+                //         data[key] = value;
+                //     }
+                // });
+                // console.log('Dados do formulário:', data);
+                // alert('Formulário enviado! Verifique o console para os dados.');
+                
+                // O Formspree geralmente lida com a mensagem de sucesso/redirecionamento.
+                // Você pode configurar uma página de "obrigado" no Formspree.
+            });
+        });
+    </script>
+</body>
+</html>
